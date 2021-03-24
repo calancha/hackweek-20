@@ -5,7 +5,7 @@ advantageCount := [:A :B |
   sortedA := A sorted.
   sortedB := B sorted.
 
-  assigned := Dictionary new.
+  assigned := LookupTable new.
   B do: [:b | (assigned includesKey: b)
                ifFalse: [assigned at: b put: OrderedCollection new.].
   ].
@@ -30,8 +30,8 @@ advantageCount := [:A :B |
     result addLast: cand.
 
   ].
-  result.
-].
+  result
+]
 
 
 " Tests "

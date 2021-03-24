@@ -15,11 +15,11 @@ spellChecker := [ :wordlist :queries |
   wordSet := wordlist asSet.
 
   " Dictionary with matches upto case. "
-  wordDictCase := Dictionary new.
+  wordDictCase := LookupTable new.
   wordlist reverse do: [:w | wordDictCase add: w asLowercase -> w].
   
   " Matches upto vowel differences. "
-  wordDictMask := Dictionary new.
+  wordDictMask := LookupTable new.
   wordlist reverse do: [:w | wordDictMask add: (mask value: w )-> w ].
 
   result := OrderedCollection new.
@@ -43,9 +43,16 @@ spellChecker := [ :wordlist :queries |
                                     ].
             ].
   ].
-  result.
-].
+  result
+]
 
-" (spellChecker value: #('ae' 'aa') value: #('UU' 'aA' 'io')) printNl. "
 
-(spellChecker value: #('KiTe' 'kite' 'hare' 'Hare') value: #('kite' 'Kite' 'KiTe' 'Hare' 'HARE' 'Hear' 'hear' 'keti' 'keet' 'keto')) printNl.
+
+" Tests "
+
+" (spellChecker value: #('ae' 'aa') value: #('UU' 'aA' 'fo' 'io')) printNl. "
+" => OrderedCollection ('ae' 'aa' '' 'ae' ) "
+
+
+" (spellChecker value: #('KiTe' 'kite' 'hare' 'Hare') value: #('kite' 'Kite' 'KiTe' 'Hare' 'HARE' 'Hear' 'hear' 'keti' 'keet' 'keto')) printNl. "
+" => OrderedCollection ('kite' 'kite' 'KiTe' 'Hare' 'hare' '' '' 'KiTe' '' 'KiTe' ) "

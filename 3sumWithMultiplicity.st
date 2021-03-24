@@ -3,7 +3,7 @@
 
 threeSumMulti := [:arr :target |
                   " Frequencies per each element in arr "
-                  freq := Dictionary new.
+                  freq := LookupTable new.
                   arr do: [:elt |
                            (freq includesKey: elt)
                                 ifTrue: [freq at: elt put: (freq at: elt) + 1]
@@ -32,8 +32,12 @@ threeSumMulti := [:arr :target |
                        " The three numbers are equal. "
                        ifFalse: [ans := ans + ((value * (value - 1) * (value - 2)) // 6)].
                    ].
-         ans \\ ((10 raisedTo: 9) + 7).
-].
+         ans \\ ((10 raisedTo: 9) + 7)
+]
+
+" Tests "
 
 " (threeSumMulti value: #(1 1 2 2 3 3 4 4 5 5) value: 8) printNl. "
-(threeSumMulti value: #(1 1 2 2 2 2) value: 5) printNl.
+" => 20 "
+" (threeSumMulti value: #(1 1 2 2 2 2) value: 5) printNl. "
+" => 12 "
