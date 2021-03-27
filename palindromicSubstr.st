@@ -16,7 +16,7 @@ OrderedCollection extend [
                 row := table at: start.
                 sidesMatch := (self at: start) = (self at: last).
                 
-                ((length = 1) | ((length = 2) & (sidesMatch)))
+                ((length = 1) | ((length = 2) & sidesMatch))
                   ifTrue: [row at: last put: true].
                  ((length > 2) & sidesMatch)
                   ifTrue: [
