@@ -1,37 +1,64 @@
 " Problem https://leetcode.com/explore/challenge/card/march-leetcoding-challenge-2021/591/week-4-march-22nd-march-28th/3686 "
 
 OrderedCollection extend [
-    countPalindromicSubstr [
-        |N table count start|
+    countPalindromesFrom: left to: right [
+       |N low high count|
         N := self size.
-        table := OrderedCollection new: N.
-        1 to: N do: [:i| table add: (Array new: N withAll: false)].
+        low := left.
+        high := right.
         count := 0.
 
-        start := N.
-        [start > 0] whileTrue: [
-            start to: N do: [:last|
-                |length row sidesMatch|
-                length := last - start + 1.
-                row := table at: start.
-                sidesMatch := (self at: start) = (self at: last).
-                
-                ((length = 1) | ((length = 2) & sidesMatch))
-                  ifTrue: [row at: last put: true].
-                 ((length > 2) & sidesMatch)
-                  ifTrue: [
-                      |around|
-                      around := (table at: (start + 1)) at: (last - 1).
-                      row at: last put: around.
-                  ].
-                 ((table at: start) at: last)
-                  ifTrue: [count := count + 1].
+        [(low >= 1) & (high <= N) and: [(self at: low) = (self at: high)]]
+            whileTrue: [
+                count := count + 1.
+                low := low - 1.
+                high := high + 1.
             ].
-            start := start - 1.
-        ].
         ^count.
     ]
+
+    countPalindromicSubstr [
+        |N ans|
+        N := self size.
+        ans := 0.
+        1 to: N do: [:pos |
+            ans := ans + (self countPalindromesFrom: pos to: pos).
+            ans := ans + (self countPalindromesFrom: pos to: (1 + pos)).
+        ].
+       ^ans.
+    ]
 ]
+    " countPalindromicSubstr [ "
+    "     |N table count start| "
+    "     N := self size. "
+    "     table := OrderedCollection new: N. "
+    "     1 to: N do: [:i| table add: (Array new: N withAll: false)]. "
+    "     count := 0. "
+
+    "     start := N. "
+    "     [start > 0] whileTrue: [ "
+    "         start to: N do: [:last| "
+    "             |length row sidesMatch| "
+    "             length := last - start + 1. "
+    "             row := table at: start. "
+    "             sidesMatch := (self at: start) = (self at: last). "
+                
+    "             ((length = 1) | ((length = 2) & (sidesMatch))) "
+    "               ifTrue: [row at: last put: true]. "
+    "              ((length > 2) & sidesMatch) "
+    "               ifTrue: [ "
+    "                   |around| "
+    "                   around := (table at: (start + 1)) at: (last - 1). "
+    "                   row at: last put: around. "
+    "               ]. "
+    "              ((table at: start) at: last) "
+    "               ifTrue: [count := count + 1]. "
+    "         ]. "
+    "         start := start - 1. "
+    "     ]. "
+    "     ^count. "
+    " ] "
+" ] "
 
 
 " Tests "
